@@ -923,6 +923,12 @@ impl WlSeatGlobal {
             Some(n) => n,
             _ => n.tl_into_node(),
         };
+        // move cursor
+        let pos = node.node_absolute_position().center();
+        let current_cursor_pos = self.pointer_cursor().position();
+        if !node.node_absolute_position().contains(current_cursor_pos.0.round_down(), current_cursor_pos.1.round_down()) {
+            self.pointer_cursor().set_position(Fixed::from_int(pos.0), Fixed::from_int(pos.1));
+        }
         self.focus_node(node);
     }
 
