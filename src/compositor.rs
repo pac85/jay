@@ -398,11 +398,11 @@ fn start_global_event_handlers(
             Phase::PostLayout,
             placeholder_render_textures(state.clone()),
         ),
-        eng.spawn2(
-            "output render",
-            Phase::PostLayout,
-            output_render_data(state.clone()),
-        ),
+        // eng.spawn2(
+        //     "output render",
+        //     Phase::PostLayout,
+        //     output_render_data(state.clone()),
+        // ),
         eng.spawn2("float layout", Phase::Layout, float_layout(state.clone())),
         eng.spawn2(
             "float titles",

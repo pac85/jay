@@ -84,79 +84,79 @@ impl Renderer<'_> {
             render_layer!(output.layers[1]);
             let non_exclusive_rect = output.non_exclusive_rect_rel.get();
             let (x, y) = non_exclusive_rect.translate_inv(x, y);
-            {
-                let c = theme.colors.bar_background.get();
-                self.base.fill_boxes2(
-                    slice::from_ref(
-                        &Rect::new_sized(0, 0, non_exclusive_rect.width(), th).unwrap(),
-                    ),
-                    &c,
-                    x,
-                    y,
-                );
-                let rd = output.render_data.borrow_mut();
-                if let Some(aw) = &rd.active_workspace {
-                    let c = match aw.captured {
-                        true => theme.colors.captured_focused_title_background.get(),
-                        false => theme.colors.focused_title_background.get(),
-                    };
-                    self.base.fill_boxes2(slice::from_ref(&aw.rect), &c, x, y);
-                }
-                let c = theme.colors.separator.get();
-                self.base
-                    .fill_boxes2(slice::from_ref(&rd.underline), &c, x, y);
-                let c = theme.colors.unfocused_title_background.get();
-                self.base.fill_boxes2(&rd.inactive_workspaces, &c, x, y);
-                let c = theme.colors.captured_unfocused_title_background.get();
-                self.base
-                    .fill_boxes2(&rd.captured_inactive_workspaces, &c, x, y);
-                let c = theme.colors.attention_requested_background.get();
-                self.base
-                    .fill_boxes2(&rd.attention_requested_workspaces, &c, x, y);
-                let scale = output.global.persistent.scale.get();
-                for title in &rd.titles {
-                    let (x, y) = self.base.scale_point(x + title.tex_x, y + title.tex_y);
-                    self.base.render_texture(
-                        &title.tex,
-                        None,
-                        x,
-                        y,
-                        None,
-                        None,
-                        scale,
-                        None,
-                        None,
-                        AcquireSync::None,
-                        ReleaseSync::None,
-                    );
-                }
-                if let Some(status) = &rd.status {
-                    if let Some(texture) = status.tex.texture() {
-                        let (x, y) = self.base.scale_point(x + status.tex_x, y);
-                        self.base.render_texture(
-                            &texture,
-                            None,
-                            x,
-                            y,
-                            None,
-                            None,
-                            scale,
-                            None,
-                            None,
-                            AcquireSync::None,
-                            ReleaseSync::None,
-                        );
-                    }
-                }
-                for item in output.tray_items.iter() {
-                    let data = item.data();
-                    if data.surface.buffer.is_some() {
-                        let rect = data.rel_pos.get().move_(x, y);
-                        let bounds = self.base.scale_rect(rect);
-                        self.render_surface(&data.surface, rect.x1(), rect.y1(), Some(&bounds));
-                    }
-                }
-            }
+            // {
+            //     let c = theme.colors.bar_background.get();
+            //     self.base.fill_boxes2(
+            //         slice::from_ref(
+            //             &Rect::new_sized(0, 0, non_exclusive_rect.width(), th).unwrap(),
+            //         ),
+            //         &c,
+            //         x,
+            //         y,
+            //     );
+            //     let rd = output.render_data.borrow_mut();
+            //     if let Some(aw) = &rd.active_workspace {
+            //         let c = match aw.captured {
+            //             true => theme.colors.captured_focused_title_background.get(),
+            //             false => theme.colors.focused_title_background.get(),
+            //         };
+            //         self.base.fill_boxes2(slice::from_ref(&aw.rect), &c, x, y);
+            //     }
+            //     let c = theme.colors.separator.get();
+            //     self.base
+            //         .fill_boxes2(slice::from_ref(&rd.underline), &c, x, y);
+            //     let c = theme.colors.unfocused_title_background.get();
+            //     self.base.fill_boxes2(&rd.inactive_workspaces, &c, x, y);
+            //     let c = theme.colors.captured_unfocused_title_background.get();
+            //     self.base
+            //         .fill_boxes2(&rd.captured_inactive_workspaces, &c, x, y);
+            //     let c = theme.colors.attention_requested_background.get();
+            //     self.base
+            //         .fill_boxes2(&rd.attention_requested_workspaces, &c, x, y);
+            //     let scale = output.global.persistent.scale.get();
+            //     for title in &rd.titles {
+            //         let (x, y) = self.base.scale_point(x + title.tex_x, y + title.tex_y);
+            //         self.base.render_texture(
+            //             &title.tex,
+            //             None,
+            //             x,
+            //             y,
+            //             None,
+            //             None,
+            //             scale,
+            //             None,
+            //             None,
+            //             AcquireSync::None,
+            //             ReleaseSync::None,
+            //         );
+            //     }
+            //     if let Some(status) = &rd.status {
+            //         if let Some(texture) = status.tex.texture() {
+            //             let (x, y) = self.base.scale_point(x + status.tex_x, y);
+            //             self.base.render_texture(
+            //                 &texture,
+            //                 None,
+            //                 x,
+            //                 y,
+            //                 None,
+            //                 None,
+            //                 scale,
+            //                 None,
+            //                 None,
+            //                 AcquireSync::None,
+            //                 ReleaseSync::None,
+            //             );
+            //         }
+            //     }
+            //     for item in output.tray_items.iter() {
+            //         let data = item.data();
+            //         if data.surface.buffer.is_some() {
+            //             let rect = data.rel_pos.get().move_(x, y);
+            //             let bounds = self.base.scale_rect(rect);
+            //             self.render_surface(&data.surface, rect.x1(), rect.y1(), Some(&bounds));
+            //         }
+            //     }
+            // }
             if let Some(ws) = output.workspace.get() {
                 self.render_workspace(&ws, x, y + th + 1);
             }

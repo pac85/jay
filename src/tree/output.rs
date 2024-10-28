@@ -702,7 +702,7 @@ impl OutputNode {
         let rect = self.global.pos.get();
         let th = self.state.theme.sizes.title_height.get();
         let exclusive = self.exclusive_zones.get();
-        let y1 = rect.y1() + exclusive.top;
+        let y1 = rect.y1() + exclusive.top - th;
         let x2 = rect.x2() - exclusive.right;
         let y2 = rect.y2() - exclusive.bottom;
         let x1 = rect.x1() + exclusive.left;
@@ -712,7 +712,7 @@ impl OutputNode {
             .set(Rect::new_sized_unchecked(x1, y1, width, height));
         self.non_exclusive_rect_rel.set(Rect::new_sized_unchecked(
             exclusive.left,
-            exclusive.top,
+            exclusive.top - th,
             width,
             height,
         ));
